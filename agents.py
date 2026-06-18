@@ -93,14 +93,20 @@ def run_extraction_agent(transcript: str) -> dict:
 def run_scoring_agent(call_data: dict) -> dict:
     """
     Agent 2: Score the call against SPIN selling and FAB frameworks.
-    Takes structured call data from Agent 1.
-    Returns scores and justifications.
+    Includes retry logic for JSON parsing failures.
     """
     llm = get_llm()
     prompt = PromptTemplate.from_template(SCORING_PROMPT)
     chain = prompt | llm
-    result = chain.invoke({"call_data": json.dumps(call_data, indent=2)})
-    return clean_json(result.content)
+    
+    for attempt in range(3):
+        try:
+            result = chain.invoke({"call_data": json.dumps(call_data, indent=2)})
+            return clean_json(result.content)
+        except (ValueError, Exception) as e:
+            if attempt == 2:
+                raise ValueError(f"Agent 2 failed after 3 attempts: {str(e)}")
+            print(f"Agent 2 attempt {attempt+1} failed, retrying...")
 
 
 def run_coaching_agent(call_data: dict, scores: dict) -> dict:
