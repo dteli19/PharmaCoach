@@ -105,28 +105,6 @@ Streamlit app with session_state persistence so results survive re-renders. Thre
 
 ---
 
-## 🚀 Setup and Run
-
-```bash
-git clone https://github.com/dteli19/pharmacoach.git
-cd pharmacoach
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-Create `.env`:
-```
-GROQ_API_KEY=your_groq_key_here
-```
-
-Run:
-```bash
-streamlit run app.py
-```
-
----
-
 ## 💬 Example Output
 
 **Input:** Raw sales call transcript (rep + HCP dialogue)
