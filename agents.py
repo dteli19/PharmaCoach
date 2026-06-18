@@ -20,7 +20,8 @@ def get_llm():
     return ChatGroq(
         api_key=groq_key,
         model="llama-3.3-70b-versatile",
-        temperature=0
+        temperature=0,
+        max_tokens=1024
     )
 
 
@@ -112,17 +113,37 @@ def run_scoring_agent(call_data: dict) -> dict:
 def run_coaching_agent(call_data: dict, scores: dict) -> dict:
     """
     Agent 3: Generate personalized coaching feedback.
-    Takes structured call data from Agent 1 and scores from Agent 2.
-    Returns strengths, improvements, objection scripts, next call strategy.
+    Uses higher max_tokens to handle longer coaching responses.
     """
-    llm = get_llm()
+    groq_key = os.getenv("GROQ_API_KEY")
+    try:
+        import streamlit as st
+        if not groq_key:
+            groq_key = st.secrets.get("GROQ_API_KEY", "")
+    except Exception:
+        pass
+
+    llm = ChatGroq(
+        api_key=groq_key,
+        model="llama-3.3-70b-versatile",
+        temperature=0,
+        max_tokens=2048
+    )
+
     prompt = PromptTemplate.from_template(COACHING_PROMPT)
     chain = prompt | llm
-    result = chain.invoke({
-        "call_data": json.dumps(call_data, indent=2),
-        "scores": json.dumps(scores, indent=2)
-    })
-    return clean_json(result.content)
+
+    for attempt in range(3):
+        try:
+            result = chain.invoke({
+                "call_data": json.dumps(call_data, indent=2),
+                "scores": json.dumps(scores, indent=2)
+            })
+            return clean_json(result.content)
+        except (ValueError, Exception) as e:
+            if attempt == 2:
+                raise ValueError(f"Agent 3 failed after 3 attempts: {str(e)}")
+            print(f"Agent 3 attempt {attempt+1} failed, retrying...")
 
 
 def run_full_pipeline(transcript: str) -> tuple:

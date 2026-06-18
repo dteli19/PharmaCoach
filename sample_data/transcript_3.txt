@@ -1,0 +1,23 @@
+Date: June 17, 2026
+Rep Name: Aisha Patel
+HCP: Dr. Michael Chen, Cardiologist, Northside Heart Institute, Atlanta
+
+Aisha: Good afternoon Dr. Chen. Thanks for making time. I'm here to discuss Cardivex for your heart failure patients, specifically those with reduced ejection fraction.
+
+Dr. Chen: I've seen some information about it. What's the key differentiator from what I'm currently prescribing?
+
+Aisha: Great question. The CHAMPION trial showed a 34% reduction in cardiovascular mortality compared to standard of care. The key is the mechanism — it works upstream of existing therapies rather than adding to the same pathway.
+
+Dr. Chen: That mortality data is interesting. What about tolerability? My patients are typically on multiple medications already.
+
+Aisha: In the trial, the most common side effect was mild hyperkalemia at 12%, with 94% of those cases being Grade 1 and self-resolving. The drug interaction profile was favorable in polypharmacy patients.
+
+Dr. Chen: What about patients with chronic kidney disease? That's a concern with hyperkalemia risk.
+
+Aisha: That's an important consideration. For patients with CrCl below 30, dose adjustment is recommended per the label. I'd be happy to share the renal subgroup data from CHAMPION.
+
+Dr. Chen: Yes please send that over. I'm not ready to commit to prescribing yet but I'd like to review the data.
+
+Aisha: Absolutely, I'll email you the clinical compendium today. Would it be okay to follow up in two weeks after you've had a chance to review?
+
+Dr. Chen: Sure, two weeks works.

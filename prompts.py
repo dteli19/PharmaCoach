@@ -4,6 +4,7 @@ You are an expert pharma sales analyst. Analyze the following sales call transcr
 Return your response as a valid JSON object with exactly these fields:
 
 {{
+    "rep_name": "full name of the sales representative",
     "hcp_name": "full name and title",
     "hcp_specialty": "medical specialty",
     "hcp_location": "clinic or hospital name and city",
