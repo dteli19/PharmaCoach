@@ -72,7 +72,10 @@ Return your response as a valid JSON object:
     "overall_justification": ""
 }}
 
-Return ONLY the JSON object. No preamble, no explanation, no markdown code blocks.
+Return ONLY valid JSON. No preamble, no explanation, no markdown code blocks.
+All score values must be integers between 1 and 10.
+All justification values must be strings in double quotes.
+Ensure all strings are properly closed and all objects have correct comma separation.
 """
 
 COACHING_PROMPT = """

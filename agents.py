@@ -25,8 +25,9 @@ def get_llm():
 
 
 def clean_json(text: str) -> dict:
-    """Remove markdown code blocks and fix common JSON issues."""
+    """Remove markdown code blocks and fix common JSON issues from LLM."""
     text = text.strip()
+    
     # Remove markdown code blocks
     text = re.sub(r'^```json\s*', '', text)
     text = re.sub(r'^```\s*', '', text)
@@ -39,7 +40,7 @@ def clean_json(text: str) -> dict:
     except json.JSONDecodeError:
         pass
     
-    # Find the JSON object between first { and last }
+    # Extract JSON between first { and last }
     start = text.find('{')
     end = text.rfind('}')
     if start != -1 and end != -1:
@@ -48,12 +49,33 @@ def clean_json(text: str) -> dict:
     try:
         return json.loads(text)
     except json.JSONDecodeError:
-        # Last resort: use regex to extract valid JSON
-        match = re.search(r'\{.*\}', text, re.DOTALL)
-        if match:
-            return json.loads(match.group())
+        pass
     
-    raise ValueError(f"Could not parse JSON from LLM response: {text[:200]}")
+    # Fix common LLM JSON errors
+    # Remove trailing commas before } or ]
+    text = re.sub(r',\s*}', '}', text)
+    text = re.sub(r',\s*]', ']', text)
+    
+    # Fix unquoted numeric values in nested objects
+    text = re.sub(r':\s*(\d+)\s*,', r': \1,', text)
+    text = re.sub(r':\s*(\d+)\s*}', r': \1}', text)
+    
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    
+    # Last resort — use regex to find largest JSON object
+    matches = re.findall(r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}', text, re.DOTALL)
+    if matches:
+        largest = max(matches, key=len)
+        try:
+            return json.loads(largest)
+        except json.JSONDecodeError:
+            pass
+    
+    raise ValueError(f"Could not parse JSON: {text[:300]}")
+
 
 
 def run_extraction_agent(transcript: str) -> dict:
