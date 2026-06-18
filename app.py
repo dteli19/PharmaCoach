@@ -175,7 +175,7 @@ if analyze and transcript:
 
     st.success("✅ Analysis complete!")
 
-if "call_data" in st.session_state:
+if "call_data" in st.session_state and "scores" in st.session_state and "coaching" in st.session_state:
     call_data = st.session_state["call_data"]
     scores = st.session_state["scores"]
     coaching = st.session_state["coaching"]
