@@ -19,7 +19,7 @@ def get_llm():
         pass
     return ChatGroq(
         api_key=groq_key,
-        model="llama-3.3-70b-versatile",
+        model="qwen/qwen3.6-27b",
         temperature=0,
         max_tokens=1024
     )
@@ -125,7 +125,7 @@ def run_coaching_agent(call_data: dict, scores: dict) -> dict:
 
     llm = ChatGroq(
         api_key=groq_key,
-        model="llama-3.3-70b-versatile",
+        model="qwen/qwen3.6-27b",
         temperature=0,
         max_tokens=2048
     )
